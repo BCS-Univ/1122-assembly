@@ -65,7 +65,7 @@ done:
 resultIs1:
     li      t0, 1       # Load the 1 into t0.
     mv      t1, t0      # Move t0 to output value register
-    j       done        # Jump to loop
+    j       done        # Jump to done
 
 exit:
     li      a0, 10     # System call number for exiting
