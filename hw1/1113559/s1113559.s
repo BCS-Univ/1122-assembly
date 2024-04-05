@@ -62,14 +62,14 @@ done:
     jal     ra, print_int # Call print_int to print the factorial result
     j       loop        # Jump to loop
 
+resultIs1:
+    li      t0, 1       # Load the 1 into t0.
+    mv      t1, t0      # Move t0 to output value register
+    j       done        # Jump to loop
+
 exit:
     li      a0, 10     # System call number for exiting
     ecall              # Perform the system call
-
-exite:
-    mv      a1, t3     # Move t3 (input number) to a1
-    jal     ra, print_int # Call print_int to print the integer
-    j       exit       # Jump to exit
 
 __start:
     # Printing name instructions
@@ -106,7 +106,8 @@ __start:
         mv      t4, a0    # Also save input to t4 for later use
         mv      t1, a0     # Initialize t1 to 1 for factorial calculation
 
-        # Exit if input is less than 0
-        blt     t3, x0, exite
+        beq     t3, x0, resultIs1 # If t3 equals to 0, jump to label resultIs1.
+
+        blt     t3, x0, exit    # Exit if input is less than 0
 
         j       facto     # Jump to start factorial calculation
