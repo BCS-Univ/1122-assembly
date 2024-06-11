@@ -60,7 +60,7 @@ convert_and_store:
     li t5, 0             # Initialize number of integers
 
 convert_loop:
-    lb t0, 0(t1)         # Load byte from buffer
+    lb t0, 0(t1)         # Load byte from buffer 
     beqz t0, end_convert # End of buffer check
     li t6, ' '
     beq t0, t6, store_number
@@ -68,6 +68,7 @@ convert_loop:
     beq t0, t6, store_number
     li t6, '-'
     beq t0, t6, negative_sign
+
     li t6, '0'
     blt t0, t6, skip_char
     li t6, '9'
@@ -82,6 +83,14 @@ convert_loop:
     j skip_char
 
 store_number:
+    #if the next element is space or \n, skip_char
+    lb t6, -1(t1)
+    #beq t6, t0, skip_char
+    li t0, ' '
+    beq t6, t0, skip_char
+    li t0, '\n'
+    beq t6, t0, skip_char
+
     # Store the current number
     beqz t4, store_positive
     sub t3, x0, t3  # If negative, take two's complement
